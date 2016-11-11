@@ -260,6 +260,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+
 	    if (this.props.slickGoTo != nextProps.slickGoTo) {
 	      this.changeSlide({
 	        message: 'index',
@@ -267,6 +268,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        currentSlide: this.state.currentSlide
 	      });
 	    } else {
+
+	      if (this.props.currentSlide != nextProps.currentSlide) {
+	        this.setState({
+	          currentSlide: nextProps.currentSlide
+	        });
+	      }
 	      this.update(nextProps);
 	    }
 	  },
