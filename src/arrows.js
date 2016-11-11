@@ -2,11 +2,12 @@
 
 import React from 'react';
 import classnames from 'classnames';
+import Helpers from './mixins/helpers';
 
 export var PrevArrow = React.createClass({
 
   clickHandler: function (options, e) {
-    e.preventDefault();
+    if (e) { e.preventDefault(); }
     this.props.clickHandler(options, e);
   },
   render: function () {
@@ -40,30 +41,17 @@ export var PrevArrow = React.createClass({
 
 export var NextArrow = React.createClass({
   clickHandler: function (options, e) {
-    e.preventDefault();
+    if (e) { e.preventDefault(); }
     this.props.clickHandler(options, e);
   },
   render: function () {
     var nextClasses = {'slick-arrow': true, 'slick-next': true};
     var nextHandler = this.clickHandler.bind(this, {message: 'next'});
 
-    if (!this.props.infinite) {
-      if (this.props.centerMode && this.props.currentSlide >= (this.props.slideCount - 1)) {
-        nextClasses['slick-disabled'] = true;
-        nextHandler = null;
-      } else {
-        if (this.props.currentSlide >= (this.props.slideCount - this.props.slidesToShow)) {
-          nextClasses['slick-disabled'] = true;
-          nextHandler = null;
-        }
-      }
-
-      if (this.props.slideCount <= this.props.slidesToShow) {
-        nextClasses['slick-disabled'] = true;
-        nextHandler = null;
-      }
+    if (!Helpers.canGoNext(this.props)) {
+      nextClasses['slick-disabled'] = true;
+      nextHandler = null;
     }
-
 
     var nextArrowProps = {
       key: '1',
